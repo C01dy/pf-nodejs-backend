@@ -1,11 +1,11 @@
-const { getConnection } = require("typeorm");
+const { getConnection, ObjectID } = require("typeorm");
 
 const getRace = async (ctx) => {
   try {
     const data = await getConnection().getRepository("Race").find();
     ctx.res.status(200).json({
       OK: true,
-      data
+      data,
     });
   } catch (err) {
     console.error(err);
@@ -32,7 +32,7 @@ const getClass = async (ctx) => {
   }
 };
 
-const getSkills = () => {
+const getSkills = async (ctx) => {
   try {
     const data = await getConnection().getRepository("Skill").find();
     ctx.res.status(200).json({
@@ -48,7 +48,7 @@ const getSkills = () => {
   }
 };
 
-const getHistory = () => {
+const getHistory = async (ctx) => {
   try {
     const data = await getConnection().getRepository("History").find();
     ctx.res.status(200).json({
@@ -64,7 +64,7 @@ const getHistory = () => {
   }
 };
 
-const getFace = () => {
+const getFace = async (ctx) => {
   try {
     const data = await getConnection().getRepository("Face").find();
     ctx.res.status(200).json({
@@ -80,7 +80,7 @@ const getFace = () => {
   }
 };
 
-const getClothes = () => {
+const getClothes = async (ctx) => {
   try {
     const data = await getConnection().getRepository("Clothes").find();
     ctx.res.status(200).json({
@@ -96,6 +96,18 @@ const getClothes = () => {
   }
 };
 
+const setCharacter = async (req, res) => {
+  const { name } = req.body;
+  const characterRepo = await getConnection().getRepository("Character");
+  const createdCharacter = {
+    name,
+  };
+
+  await characterRepo.save(createdCharacter).then((characterData) => {
+    res.json(characterData);
+  });
+};
+
 module.exports = {
   getRace,
   getClass,
@@ -103,4 +115,6 @@ module.exports = {
   getHistory,
   getFace,
   getClothes,
+
+  setCharacter,
 };

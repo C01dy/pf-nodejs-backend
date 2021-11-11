@@ -7,21 +7,22 @@ module.exports = new EntitySchema({
     id: {
       primary: true,
       generated: true,
+      objectId: true,
     },
     race: {
-      type: "varchar",
+      type: "string",
     },
     name: {
-      type: "varchar",
+      type: "string",
     },
     class: {
-      type: "varchar",
+      type: "string",
     },
     skills: {
       type: "array",
     },
     history: {
-      type: "text",
+      type: "string",
     },
     face: {
       type: "string",

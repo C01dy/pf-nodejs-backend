@@ -1,15 +1,15 @@
 const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
-  name: "Skill",
-  tableName: "skill",
+  name: "History",
+  tableName: "history",
   columns: {
     id: {
       primary: true,
       generated: true,
     },
-    name: {
-      type: "varchar",
+    about: {
+      type: "text",
     },
   },
 });

@@ -11,24 +11,35 @@ module.exports = new EntitySchema({
     },
     race: {
       type: "string",
+      nullable: true,
     },
     name: {
       type: "string",
+      nullable: true,
     },
     class: {
       type: "string",
+      nullable: true,
     },
     skills: {
       type: "array",
+      nullable: true,
     },
     history: {
       type: "string",
+      nullable: true,
     },
     face: {
       type: "string",
+      nullable: true,
     },
     clothes: {
       type: "string",
+      nullable: true,
+    },
+    lastStep: {
+      type: "int",
+      nullable: true,
     },
   },
 });

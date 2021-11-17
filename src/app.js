@@ -5,6 +5,11 @@ const cors = require("cors");
 const routes = require("./routes");
 const Character = require("./entity/Character");
 const Race = require("./entity/Race");
+const RoleClass = require("./entity/RoleClass");
+const Skill = require("./entity/Skill");
+const Face = require("./entity/Face");
+const History = require("./entity/History");
+const Clothes = require("./entity/Clothes");
 require("dotenv").config();
 
 const app = express();
@@ -12,6 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.static("assets"));
 app.use(routes);
 
 const connect = async () => {
@@ -20,7 +26,7 @@ const connect = async () => {
     url: `mongodb+srv://coldy:${process.env.DB_PASS}@cluster0.x1xet.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    entities: [Character, Race],
+    entities: [Character, Race, RoleClass, Skill, Face, History, Clothes],
   });
 
   return connection;

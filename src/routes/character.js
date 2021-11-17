@@ -9,6 +9,9 @@ router.get("/history", controllers.getHistory);
 router.get("/face", controllers.getFace);
 router.get("/clothes", controllers.getClothes);
 
-router.post("/", controllers.setCharacter);
+router.get("/:id", controllers.getCharacter);
+
+router.post("/", controllers.createCharacter);
+router.put("/:id", controllers.updateCharacter);
 
 module.exports = router;

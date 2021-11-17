@@ -1,4 +1,4 @@
-const { getConnection, ObjectID } = require("typeorm");
+const { getConnection } = require("typeorm");
 
 const getRace = async (ctx) => {
   try {
@@ -96,16 +96,45 @@ const getClothes = async (ctx) => {
   }
 };
 
-const setCharacter = async (req, res) => {
-  const { name } = req.body;
+const createCharacter = async (req, res) => {
+  const { name, lastStep } = req.body;
   const characterRepo = await getConnection().getRepository("Character");
   const createdCharacter = {
     name,
+    lastStep,
   };
 
   await characterRepo.save(createdCharacter).then((characterData) => {
     res.json(characterData);
   });
+};
+
+const updateCharacter = async (req, res) => {
+  const { id } = req.body;
+  const characterRepo = await getConnection().getRepository("Character");
+  const character = await characterRepo.findOne({
+    where: { id },
+  });
+
+  await characterRepo
+    .save({
+      ...character,
+      ...req.body,
+    })
+    .then((characterData) => res.json(characterData));
+
+  // await characterRepo
+  //   .update(id, req.body)
+  //   .then((characterData) => res.json(characterData));
+};
+
+const getCharacter = async (req, res) => {
+  const { id } = req.params.id;
+  const characterRepo = await getConnection().getRepository("Character");
+
+  const character = await characterRepo.findOne(id);
+
+  res.status(200).json(character);
 };
 
 module.exports = {
@@ -116,5 +145,7 @@ module.exports = {
   getFace,
   getClothes,
 
-  setCharacter,
+  createCharacter,
+  updateCharacter,
+  getCharacter,
 };

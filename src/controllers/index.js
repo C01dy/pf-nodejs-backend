@@ -1,95 +1,134 @@
 const { getConnection } = require("typeorm");
 
-const getRace = async (ctx) => {
+const getRace = async (req, res) => {
   try {
-    const data = await getConnection().getRepository("Race").find();
-    ctx.res.status(200).json({
+    let data;
+    const repo = await getConnection().getRepository("Race");
+    if (req.params.id) {
+      data = await repo.findOne({ where: req.params.id });
+    } else {
+      data = await repo.find();
+    }
+
+    res.status(200).json({
       OK: true,
       data,
     });
   } catch (err) {
     console.error(err);
-    ctx.res.status(500).json({
+    res.status(500).json({
       OK: false,
       message: "Ooops, something went wrong",
     });
   }
 };
 
-const getClass = async (ctx) => {
+const getClass = async (req, res) => {
   try {
-    const data = await getConnection().getRepository("Class").find();
-    ctx.res.status(200).json({
+    let data;
+    const repo = await getConnection().getRepository("Class");
+    if (req.params.id) {
+      data = await repo.findOne({ where: req.params.id });
+    } else {
+      data = await repo.find();
+    }
+
+    res.status(200).json({
       OK: true,
       data,
     });
   } catch (err) {
     console.error(err);
-    ctx.res.status(500).json({
+    res.status(500).json({
       OK: false,
       message: "Ooops, something went wrong",
     });
   }
 };
 
-const getSkills = async (ctx) => {
+const getSkills = async (req, res) => {
   try {
-    const data = await getConnection().getRepository("Skill").find();
-    ctx.res.status(200).json({
+    let data;
+    const repo = await getConnection().getRepository("Skill");
+    if (req.params.id) {
+      data = await repo.findOne({ where: req.params.id });
+    } else {
+      data = await repo.find();
+    }
+
+    res.status(200).json({
       OK: true,
       data: data,
     });
   } catch (err) {
     console.error(err);
-    ctx.res.status(500).json({
+    res.status(500).json({
       OK: false,
       message: "Ooops, something went wrong",
     });
   }
 };
 
-const getHistory = async (ctx) => {
+const getHistory = async (req, res) => {
   try {
-    const data = await getConnection().getRepository("History").find();
-    ctx.res.status(200).json({
+    let data;
+    const repo = await getConnection().getRepository("History");
+    if (req.params.id) {
+      data = await repo.findOne({ where: req.params.id });
+    } else {
+      data = await repo.find();
+    }
+    res.status(200).json({
       OK: true,
       data: data,
     });
   } catch (err) {
     console.error(err);
-    ctx.res.status(500).json({
+    res.status(500).json({
       OK: false,
       message: "Ooops, something went wrong",
     });
   }
 };
 
-const getFace = async (ctx) => {
+const getFace = async (req, res) => {
   try {
-    const data = await getConnection().getRepository("Face").find();
-    ctx.res.status(200).json({
+    let data;
+    const repo = await getConnection().getRepository("Face");
+    if (req.params.id) {
+      data = await repo.findOne({ where: req.params.id });
+    } else {
+      data = await repo.find();
+    }
+    res.status(200).json({
       OK: true,
       data: data,
     });
   } catch (err) {
     console.error(err);
-    ctx.res.status(500).json({
+    res.status(500).json({
       OK: false,
       message: "Ooops, something went wrong",
     });
   }
 };
 
-const getClothes = async (ctx) => {
+const getClothes = async (req, res) => {
   try {
-    const data = await getConnection().getRepository("Clothes").find();
-    ctx.res.status(200).json({
+    let data;
+    const repo = await getConnection().getRepository("Clothes");
+    if (req.params.id) {
+      data = await repo.findOne({ where: req.params.id });
+    } else {
+      data = await repo.find();
+    }
+    res.status(200).json({
       OK: true,
       data: data,
     });
   } catch (err) {
     console.error(err);
-    ctx.res.status(500).json({
+    res.status(500).json({
       OK: false,
       message: "Ooops, something went wrong",
     });
@@ -122,10 +161,6 @@ const updateCharacter = async (req, res) => {
       ...req.body,
     })
     .then((characterData) => res.json(characterData));
-
-  // await characterRepo
-  //   .update(id, req.body)
-  //   .then((characterData) => res.json(characterData));
 };
 
 const getCharacter = async (req, res) => {

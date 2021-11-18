@@ -7,6 +7,7 @@ module.exports = new EntitySchema({
     id: {
       primary: true,
       generated: true,
+      objectId: true,
     },
     name: {
       type: "string",

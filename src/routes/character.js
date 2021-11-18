@@ -2,12 +2,14 @@ const router = require("express").Router();
 const controllers = require("../controllers");
 
 // get character options
-router.get("/race", controllers.getRace);
-router.get("/class", controllers.getClass);
-router.get("/skills", controllers.getSkills);
-router.get("/history", controllers.getHistory);
-router.get("/face", controllers.getFace);
-router.get("/clothes", controllers.getClothes);
+router.get("/race/:id?", controllers.getRace);
+router.get("/class/:id?", controllers.getClass);
+router.get("/skills/:id?", controllers.getSkills);
+router.get("/history/:id?", controllers.getHistory);
+router.get("/face/:id?", controllers.getFace);
+router.get("/clothes/:id?", controllers.getClothes);
+
+// router.get('/race/:id', con)
 
 router.get("/:id", controllers.getCharacter);
 

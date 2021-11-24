@@ -9,9 +9,8 @@ router.get("/history/:id?", controllers.getHistory);
 router.get("/face/:id?", controllers.getFace);
 router.get("/clothes/:id?", controllers.getClothes);
 
-// router.get('/race/:id', con)
-
 router.get("/:id", controllers.getCharacter);
+router.get("/info/:id", controllers.getCharacterInfo);
 
 router.post("/", controllers.createCharacter);
 router.put("/:id", controllers.updateCharacter);

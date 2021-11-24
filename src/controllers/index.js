@@ -1,4 +1,9 @@
+const { ObjectID } = require("mongodb");
+
 const { getConnection } = require("typeorm");
+const {
+  characterAggregationStages,
+} = require("../db/aggregation/lookups/characterData");
 
 const getRace = async (req, res) => {
   try {
@@ -172,6 +177,23 @@ const getCharacter = async (req, res) => {
   res.status(200).json(character);
 };
 
+const getCharacterInfo = async (req, res) => {
+  const repo = await getConnection().getMongoRepository("Character");
+
+  const characterObjectId = ObjectID(req.params.id);
+
+  const d = repo.aggregate([
+    { $match: { _id: characterObjectId } },
+    ...characterAggregationStages,
+  ]);
+
+  d.next((err, result) => {
+    res.json({
+      result,
+    });
+  });
+};
+
 module.exports = {
   getRace,
   getClass,
@@ -183,4 +205,5 @@ module.exports = {
   createCharacter,
   updateCharacter,
   getCharacter,
+  getCharacterInfo,
 };

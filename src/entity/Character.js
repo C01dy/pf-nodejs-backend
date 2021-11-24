@@ -6,11 +6,12 @@ module.exports = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      generated: true,
+      // generated: true,
       objectId: true,
     },
     race: {
       type: "string",
+      // objectId: true,
       nullable: true,
     },
     name: {
@@ -19,6 +20,7 @@ module.exports = new EntitySchema({
     },
     class: {
       type: "string",
+      // objectId: true,
       nullable: true,
     },
     skills: {
@@ -27,14 +29,17 @@ module.exports = new EntitySchema({
     },
     history: {
       type: "string",
+      // objectId: true,
       nullable: true,
     },
     face: {
       type: "string",
+      // objectId: true,
       nullable: true,
     },
     clothes: {
       type: "string",
+      // objectId: true,
       nullable: true,
     },
     lastStep: {

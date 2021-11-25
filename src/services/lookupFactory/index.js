@@ -1,22 +1,27 @@
-const createLookup = (collection) => ({
-  $lookup: {
-    from: collection,
-    let: { prop: `$${collection}` },
-    pipeline: [
-      {
-        $match: {
-          $expr: {
-            $eq: ["$_id", { $toObjectId: "$$prop" }],
+const createLookup = (collection) => [
+  {
+    $lookup: {
+      from: collection,
+      let: { prop: `$${collection}` },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $eq: ["$_id", { $toObjectId: "$$prop" }],
+            },
           },
         },
-      },
-      //   {
-      //     $unwind: `$${collection}`,
-      //   },
-    ],
-    as: collection,
+      ],
+      as: collection,
+    },
   },
-});
+  {
+    $unwind: {
+      path: `$${collection}`,
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+];
 
 module.exports = {
   createLookup,

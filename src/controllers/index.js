@@ -144,8 +144,9 @@ const createCharacter = async (req, res) => {
   const { name, lastStep } = req.body;
   const characterRepo = await getConnection().getRepository("Character");
   const createdCharacter = {
-    name,
-    lastStep,
+    // name,
+    // lastStep,
+    ...req.body,
   };
 
   await characterRepo.save(createdCharacter).then((characterData) => {
@@ -154,14 +155,16 @@ const createCharacter = async (req, res) => {
 };
 
 const updateCharacter = async (req, res) => {
-  const { id } = req.body;
   const characterRepo = await getConnection().getRepository("Character");
   const character = await characterRepo.findOne({
-    where: { id },
+    where: { _id: ObjectID(req.params.id) },
   });
+
+  console.log(character);
 
   await characterRepo
     .save({
+      id: req.params.id,
       ...character,
       ...req.body,
     })

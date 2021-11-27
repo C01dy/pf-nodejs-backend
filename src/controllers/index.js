@@ -3,7 +3,7 @@ const { ObjectID } = require("mongodb");
 const { getConnection } = require("typeorm");
 const {
   characterAggregationStages,
-} = require("../db/aggregation/lookups/characterData");
+} = require("../db/aggregation/lookups/characterInfo");
 
 const getRace = async (req, res) => {
   try {
@@ -140,63 +140,6 @@ const getClothes = async (req, res) => {
   }
 };
 
-const createCharacter = async (req, res) => {
-  const { name, lastStep } = req.body;
-  const characterRepo = await getConnection().getRepository("Character");
-  const createdCharacter = {
-    // name,
-    // lastStep,
-    ...req.body,
-  };
-
-  await characterRepo.save(createdCharacter).then((characterData) => {
-    res.json(characterData);
-  });
-};
-
-const updateCharacter = async (req, res) => {
-  const characterRepo = await getConnection().getRepository("Character");
-  const character = await characterRepo.findOne({
-    where: { _id: ObjectID(req.params.id) },
-  });
-
-  console.log(character);
-
-  await characterRepo
-    .save({
-      id: req.params.id,
-      ...character,
-      ...req.body,
-    })
-    .then((characterData) => res.json(characterData));
-};
-
-const getCharacter = async (req, res) => {
-  const { id } = req.params.id;
-  const characterRepo = await getConnection().getRepository("Character");
-
-  const character = await characterRepo.findOne(id);
-
-  res.status(200).json(character);
-};
-
-const getCharacterInfo = async (req, res) => {
-  const repo = await getConnection().getMongoRepository("Character");
-
-  const characterObjectId = ObjectID(req.params.id);
-
-  const d = repo.aggregate([
-    { $match: { _id: characterObjectId } },
-    ...characterAggregationStages,
-  ]);
-
-  d.next((err, result) => {
-    res.json({
-      result,
-    });
-  });
-};
-
 module.exports = {
   getRace,
   getClass,
@@ -204,9 +147,4 @@ module.exports = {
   getHistory,
   getFace,
   getClothes,
-
-  createCharacter,
-  updateCharacter,
-  getCharacter,
-  getCharacterInfo,
 };

@@ -4,21 +4,38 @@ const {
   characterAggregationStages,
 } = require("../db/aggregation/lookups/characterInfo");
 const Character = require("../entity/Character");
+const { createCharactersArray } = require("../services/characterFactory");
 
 const getCharacter = async (req, res) => {
   const characterRepository = getMongoRepository(Character);
-  const characterData = await characterRepository.findOne(req.params.id);
-  res.json(characterData);
+  if (req.params.id) {
+    const characterData = await characterRepository.findOne(
+      ObjectID(req.params.id)
+    );
+    res.json(characterData);
+  } else {
+    const characterData = await characterRepository.find();
+    res.json(characterData);
+  }
 };
 
-const createCharacter = async (_, res) => {
+const createCharacter = async (req, res) => {
   const characterRepository = getMongoRepository(Character);
   const characterData = await characterRepository.insertOne({
-    name: "Joe",
+    name: req.body.name,
     lastStep: 0,
   });
 
   res.json(characterData.ops[0]);
+};
+
+const createCharactersCollection = async (req, res) => {
+  const characterRepository = getMongoRepository(Character);
+  const characters = createCharactersArray(20);
+
+  const characterData = await characterRepository.insertMany(characters);
+
+  res.json(characterData.ops);
 };
 
 const updateCharacter = async (req, res) => {
@@ -50,7 +67,6 @@ const getCharacterInfo = async (req, res) => {
     ...characterAggregationStages,
   ]);
 
-  console.log(r);
   characterAggregation.next((err, result) => {
     res.json(result);
   });
@@ -61,4 +77,5 @@ module.exports = {
   createCharacter,
   getCharacter,
   getCharacterInfo,
+  createCharactersCollection,
 };

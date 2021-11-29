@@ -1,4 +1,5 @@
 const { EntitySchema } = require("typeorm");
+const { ObjectID } = require("mongodb");
 
 module.exports = new EntitySchema({
   name: "Character",
@@ -9,33 +10,28 @@ module.exports = new EntitySchema({
       objectId: true,
     },
     race: {
-      objectId: true,
-      nullable: true,
+      type: ObjectID,
     },
     name: {
       type: "string",
-      nullable: true,
     },
     class: {
-      objectId: true,
-      nullable: true,
+      type: ObjectID,
     },
     skills: {
       type: "array",
-      nullable: true,
     },
     history: {
-      objectId: true,
+      type: ObjectID,
     },
     face: {
-      objectId: true,
+      type: ObjectID,
     },
     clothes: {
-      objectId: true,
+      type: ObjectID,
     },
     lastStep: {
-      type: "int",
-      nullable: true,
+      type: ObjectID,
     },
   },
 });

@@ -3,14 +3,12 @@ const {
   createLookupForObjectIdArray,
 } = require("../../../services/lookupFactory");
 
-// TODO: create lookup for skills array
-
 const characterAggregationStages = [
   ...createLookupForObjectId("race"),
   ...createLookupForObjectId("class"),
-  // ...createLookupForSingle("history"),
-  // ...createLookupForSingle("clothes"),
-  // ...createLookupForSingle("face"),
+  ...createLookupForObjectId("history"),
+  ...createLookupForObjectId("clothes"),
+  ...createLookupForObjectId("face"),
   ...createLookupForObjectIdArray("skill"),
 ];
 

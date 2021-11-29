@@ -10,9 +10,10 @@ router.get("/history/:id?", controllers.getHistory);
 router.get("/face/:id?", controllers.getFace);
 router.get("/clothes/:id?", controllers.getClothes);
 
-router.get("/:id", characterControllers.getCharacter);
+router.get("/:id?", characterControllers.getCharacter);
 router.get("/info/:id", characterControllers.getCharacterInfo);
 router.post("/", characterControllers.createCharacter);
 router.put("/:id", characterControllers.updateCharacter);
+router.post("/collection", characterControllers.createCharactersCollection);
 
 module.exports = router;

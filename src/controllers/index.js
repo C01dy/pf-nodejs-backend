@@ -1,9 +1,6 @@
 const { ObjectID } = require("mongodb");
 
 const { getConnection } = require("typeorm");
-const {
-  characterAggregationStages,
-} = require("../db/aggregation/lookups/characterInfo");
 
 const getRace = async (req, res) => {
   try {

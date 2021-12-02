@@ -1,81 +1,54 @@
-const { ObjectID } = require("mongodb");
-const { getMongoRepository } = require("typeorm");
 const {
-  characterAggregationStages,
-} = require("../db/aggregation/lookups/characterInfo");
-const Character = require("../entity/Character");
-const { createCharactersArray } = require("../services/characterFactory");
+  getOne,
+  getAll,
+  createOne,
+  createCollection,
+  updateOne,
+  getAllInfo,
+  getOneInfo,
+} = require("../services/character");
 
-const getCharacter = async (req, res) => {
-  const characterRepository = getMongoRepository(Character);
-  if (req.params.id) {
-    const characterData = await characterRepository.findOne(
-      ObjectID(req.params.id)
-    );
-    res.json(characterData);
-  } else {
-    const characterData = await characterRepository.find();
-    res.json(characterData);
-  }
+const getOneCharacter = async (req, res) => {
+  const character = await getOne(req.params.id);
+  res.json(character);
 };
 
-const createCharacter = async (req, res) => {
-  const characterRepository = getMongoRepository(Character);
-  const characterData = await characterRepository.insertOne({
-    name: req.body.name,
-    lastStep: 0,
-  });
-
-  res.json(characterData.ops[0]);
+const getAllCharacters = async (_, res) => {
+  const characters = await getAll();
+  res.json(characters);
 };
 
-const createCharactersCollection = async (req, res) => {
-  const characterRepository = getMongoRepository(Character);
-  const characters = createCharactersArray(20);
-
-  const characterData = await characterRepository.insertMany(characters);
-
-  res.json(characterData.ops);
+const createOneCharacter = async (req, res) => {
+  const character = await createOne(req.body.name);
+  res.json(character);
 };
 
-const updateCharacter = async (req, res) => {
-  const characterRepository = getMongoRepository(Character);
-  const keyPropToUpdate = Object.keys(req.body).pop();
-  let valuePropToUpdate = req.body[keyPropToUpdate];
-
-  if (Array.isArray(valuePropToUpdate)) {
-    valuePropToUpdate = valuePropToUpdate.map((el) => ObjectID(el));
-  } else {
-    valuePropToUpdate = ObjectID(valuePropToUpdate);
-  }
-
-  const characterData = await characterRepository.findOneAndUpdate(
-    { _id: ObjectID(req.params.id) },
-    {
-      $set: { [keyPropToUpdate]: valuePropToUpdate },
-    }
-  );
-
-  res.json(characterData.value);
+const createCharactersCollection = async (_, res) => {
+  const characters = await createCollection(20);
+  res.json(characters);
 };
 
-const getCharacterInfo = async (req, res) => {
-  const characterRepository = getMongoRepository(Character);
+const updateOneCharacter = async (req, res) => {
+  const character = await updateOne(req.params.id, req.body);
+  res.json(character);
+};
 
-  const characterAggregation = characterRepository.aggregate([
-    { $match: { _id: ObjectID(req.params.id) } },
-    ...characterAggregationStages,
-  ]);
+const getAllCharactersInfo = async (_, res) => {
+  const charactersInfo = await getAllInfo();
+  res.json(charactersInfo);
+};
 
-  characterAggregation.next((err, result) => {
-    res.json(result);
-  });
+const getOneCharacterInfo = async (req, res) => {
+  const characterInfo = await getOneInfo(req.params.id);
+  res.json(characterInfo);
 };
 
 module.exports = {
-  updateCharacter,
-  createCharacter,
-  getCharacter,
-  getCharacterInfo,
+  updateOneCharacter,
+  createOneCharacter,
+  getOneCharacter,
+  getAllCharacters,
+  getAllCharactersInfo,
+  getOneCharacterInfo,
   createCharactersCollection,
 };

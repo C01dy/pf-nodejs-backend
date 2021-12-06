@@ -33,8 +33,9 @@ const updateOneCharacter = async (req, res) => {
   res.json(character);
 };
 
-const getAllCharactersInfo = async (_, res) => {
-  const charactersInfo = await getAllInfo();
+const getAllCharactersInfo = async (req, res) => {
+  console.log(req.query);
+  const charactersInfo = await getAllInfo(req.query);
   res.json(charactersInfo);
 };
 

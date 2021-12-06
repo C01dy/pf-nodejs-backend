@@ -6,6 +6,7 @@ const {
 } = require("../db/aggregation/lookups/characterInfo");
 
 const { createCharactersArray } = require("./characterFactory");
+const { matchSortFields, matchFilterFields } = require("../helpers");
 
 const getOne = async (id) => {
   const characterRepository = getMongoRepository(Character);
@@ -58,15 +59,30 @@ const updateOne = async (id, characterData) => {
   return res;
 };
 
-const getAllInfo = async () => {
+const getAllInfo = async (queryObj) => {
   const characterRepository = getMongoRepository(Character);
+  const copyCharacterAggregationStages = [...characterAggregationStages];
+
+  const sortFields = matchSortFields(queryObj);
+  const filterFields = matchFilterFields(queryObj);
+
+  if (Object.keys(sortFields).length) {
+    copyCharacterAggregationStages.push({
+      $sort: sortFields,
+    });
+  }
+
+  if (Object.keys(filterFields).length) {
+    copyCharacterAggregationStages.push({
+      $match: filterFields,
+    });
+  }
 
   const characterAggregation = characterRepository.aggregate([
-    ...characterAggregationStages,
+    ...copyCharacterAggregationStages,
   ]);
 
   const res = await characterAggregation.toArray();
-
   return res;
 };
 

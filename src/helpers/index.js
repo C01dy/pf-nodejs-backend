@@ -1,25 +1,37 @@
-const matchPropNameFromSortString = (str) => str.split("_").pop();
+const { ObjectID } = require("mongodb");
 
-const matchSortFields = (obj) =>
-  Object.fromEntries(
-    Object.entries(obj)
-      .filter(([key, _]) => key.includes("sortBy"))
-      .map(([key, value]) => [matchPropNameFromSortString(key), +value])
+const getSortFieldFromQueryParams = (queryParams) => {
+  const queryParamsEntries = Object.entries(queryParams);
+  const hasSortFields = !!queryParamsEntries.filter(
+    ([key, _]) => key === "sortBy"
+  ).length;
+
+  if (hasSortFields) {
+    const [sortField, sortFieldValue] = queryParams.sortBy.split("-");
+    return {
+      [sortField]: sortFieldValue === "asc" ? 1 : -1,
+    };
+  }
+  return null;
+};
+
+const getFilterFieldsFromQueryParams = (queryParams) => {
+  const queryParamsEntries = Object.entries(queryParams);
+  const filterEntries = queryParamsEntries.filter(
+    ([key, _]) => !key.includes("sortBy")
   );
 
-const matchFilterFields = (obj) =>
-  Object.fromEntries(
-    Object.entries(obj)
-      .filter(([key, _]) => !key.includes("sortBy"))
-      .map(([key, value]) => {
-        if (key === "name") {
-          return [key, value];
-        }
-        return [`${key}.name`, value];
-      })
+  return Object.fromEntries(
+    filterEntries.map(([key, value]) => {
+      if (key === "name") {
+        return [key, value];
+      }
+      return [key, ObjectID(value)];
+    })
   );
+};
 
 module.exports = {
-  matchSortFields,
-  matchFilterFields,
+  getSortFieldFromQueryParams,
+  getFilterFieldsFromQueryParams,
 };

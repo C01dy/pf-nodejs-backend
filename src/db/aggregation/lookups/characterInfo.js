@@ -12,8 +12,6 @@ const characterAggregationStages = [
   ...createLookupForObjectIdArray("skill"),
 ];
 
-const getCharacterAggregationStages = () => {};
-
 module.exports = {
   characterAggregationStages,
 };

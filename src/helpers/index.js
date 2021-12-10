@@ -24,7 +24,7 @@ const getFilterFieldsFromQueryParams = (queryParams) => {
   return Object.fromEntries(
     filterEntries.map(([key, value]) => {
       if (key === "name") {
-        return [key, value];
+        return ["name", { $regex: value }];
       }
       return [key, ObjectID(value)];
     })

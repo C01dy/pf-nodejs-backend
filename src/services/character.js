@@ -69,7 +69,6 @@ const getAllInfo = async (queryParams) => {
   const sortField = getSortFieldFromQueryParams(queryParams);
   const filterFields = getFilterFieldsFromQueryParams(queryParams);
 
-  // TODO: match substr for name filter
   if (Object.keys(filterFields).length) {
     copyCharacterAggregationStages.unshift({
       $match: filterFields,

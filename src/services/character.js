@@ -9,6 +9,7 @@ const { createCharactersArray } = require("./characterFactory");
 const {
   getFilterFieldsFromQueryParams,
   getSortFieldFromQueryParams,
+  objectHasProp,
 } = require("../helpers");
 
 const getOne = async (id) => {
@@ -68,6 +69,20 @@ const getAllInfo = async (queryParams) => {
 
   const sortField = getSortFieldFromQueryParams(queryParams);
   const filterFields = getFilterFieldsFromQueryParams(queryParams);
+
+  const limit = 5;
+
+  if (objectHasProp(queryParams, "page")) {
+    copyCharacterAggregationStages.push({
+      $facet: {
+        // metadata: [
+        //   { $count: "total" },
+        //   { $addFields: { page: +queryParams.page } },
+        // ],
+        data: [{ $skip: +queryParams.page * limit }, { $limit: limit }],
+      },
+    });
+  }
 
   if (Object.keys(filterFields).length) {
     copyCharacterAggregationStages.unshift({

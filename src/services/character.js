@@ -70,20 +70,6 @@ const getAllInfo = async (queryParams) => {
   const sortField = getSortFieldFromQueryParams(queryParams);
   const filterFields = getFilterFieldsFromQueryParams(queryParams);
 
-  const limit = 5;
-
-  if (objectHasProp(queryParams, "page")) {
-    copyCharacterAggregationStages.push({
-      $facet: {
-        // metadata: [
-        //   { $count: "total" },
-        //   { $addFields: { page: +queryParams.page } },
-        // ],
-        data: [{ $skip: +queryParams.page * limit }, { $limit: limit }],
-      },
-    });
-  }
-
   if (Object.keys(filterFields).length) {
     copyCharacterAggregationStages.unshift({
       $match: filterFields,
@@ -95,6 +81,16 @@ const getAllInfo = async (queryParams) => {
       $sort: sortField,
     });
   }
+
+  copyCharacterAggregationStages.push({
+    $facet: {
+      metadata: [
+        { $count: "total" },
+        { $addFields: { limit: queryParams.limit } },
+      ],
+      data: [{ $skip: queryParams.skip }, { $limit: queryParams.limit }],
+    },
+  });
 
   const characterAggregation = characterRepository.aggregate([
     ...copyCharacterAggregationStages,

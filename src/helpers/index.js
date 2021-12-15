@@ -16,7 +16,11 @@ const getSortFieldFromQueryParams = (queryParams) => {
 const getFilterFieldsFromQueryParams = (queryParams) => {
   const queryParamsEntries = Object.entries(queryParams);
   const filterEntries = queryParamsEntries.filter(
-    ([key, _]) => !key.includes("sortBy") && !key.includes("page")
+    ([key, _]) =>
+      !key.includes("sortBy") &&
+      !key.includes("page") &&
+      key !== "skip" &&
+      key !== "limit"
   );
 
   return Object.fromEntries(

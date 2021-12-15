@@ -1,3 +1,4 @@
+const { objectHasProp } = require("../helpers");
 const {
   getOne,
   getAll,
@@ -34,8 +35,13 @@ const updateOneCharacter = async (req, res) => {
 };
 
 const getAllCharactersInfo = async (req, res) => {
-  console.log(req.query);
-  const charactersInfo = await getAllInfo(req.query);
+  const limit = 10;
+  const queryParams = { ...req.query };
+  if (objectHasProp(req.query, "page")) {
+    queryParams.skip = (+queryParams.page - 1) * limit;
+    queryParams.limit = limit;
+  }
+  const charactersInfo = await getAllInfo(queryParams);
   res.json(charactersInfo);
 };
 

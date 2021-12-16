@@ -1,7 +1,7 @@
 const {
   getOneHistory,
   getAllHistories,
-} = require("../../services/characteristics");
+} = require("../../services/db/characteristics");
 
 const getHistoryController = async (req, res) => {
   try {

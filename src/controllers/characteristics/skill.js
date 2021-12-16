@@ -1,4 +1,7 @@
-const { getOneSkill, getAllSkills } = require("../../services/characteristics");
+const {
+  getOneSkill,
+  getAllSkills,
+} = require("../../services/db/characteristics");
 
 const getSkillController = async (req, res) => {
   try {

@@ -1,16 +1,15 @@
 const { ObjectID } = require("mongodb");
 const { getMongoRepository } = require("typeorm");
-const Character = require("../entity/Character");
+const Character = require("../../entity/Character");
 const {
   characterAggregationStages,
-} = require("../db/aggregation/lookups/characterInfo");
+} = require("./aggregation/lookups/characterInfo");
 
 const { createCharactersArray } = require("./characterFactory");
 const {
   getFilterFieldsFromQueryParams,
   getSortFieldFromQueryParams,
-  objectHasProp,
-} = require("../helpers");
+} = require("../../helpers");
 
 const getOne = async (id) => {
   const characterRepository = getMongoRepository(Character);

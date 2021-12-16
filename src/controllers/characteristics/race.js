@@ -1,4 +1,7 @@
-const { getOneRace, getAllRaces } = require("../../services/characteristics");
+const {
+  getOneRace,
+  getAllRaces,
+} = require("../../services/db/characteristics");
 
 const getRaceController = async (req, res) => {
   try {

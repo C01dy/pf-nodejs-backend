@@ -1,7 +1,7 @@
 const {
   createLookupForObjectId,
   createLookupForObjectIdArray,
-} = require("../../../services/lookupFactory");
+} = require("../../lookupFactory");
 
 const characterAggregationStages = [
   ...createLookupForObjectId("race"),

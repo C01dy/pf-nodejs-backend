@@ -1,7 +1,7 @@
 const {
   getOneClass,
   getAllClasses,
-} = require("../../services/characteristics");
+} = require("../../services/db/characteristics");
 
 const getClassController = async (req, res) => {
   try {

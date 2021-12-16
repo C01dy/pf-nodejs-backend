@@ -1,7 +1,6 @@
 const express = require("express");
 const typeorm = require("typeorm");
 const cors = require("cors");
-
 const routes = require("./routes");
 
 const Character = require("./entity/Character");
@@ -11,6 +10,7 @@ const Skill = require("./entity/Skill");
 const Face = require("./entity/Face");
 const History = require("./entity/History");
 const Clothes = require("./entity/Clothes");
+const logger = require("./services/logger");
 
 const app = express();
 
@@ -39,7 +39,7 @@ const connect = async () => {
 const init = () => {
   connect().then(() => {
     app.listen(process.env.PORT, () => {
-      console.log(`Server is running on ${process.env.PORT}`);
+      logger.log("info", `Server is running on ${process.env.PORT}`);
     });
   });
 };

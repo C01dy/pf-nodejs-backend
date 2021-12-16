@@ -1,4 +1,7 @@
-const { getOneFace, getAllFaces } = require("../../services/characteristics");
+const {
+  getOneFace,
+  getAllFaces,
+} = require("../../services/db/characteristics");
 
 const getFaceController = async (req, res) => {
   try {

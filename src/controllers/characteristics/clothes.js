@@ -1,7 +1,7 @@
 const {
   getOneClothes,
   getAllClothes,
-} = require("../../services/characteristics");
+} = require("../../services/db/characteristics");
 
 const getClothesController = async (req, res) => {
   try {

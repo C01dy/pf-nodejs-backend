@@ -7,7 +7,7 @@ const {
   updateOne,
   getAllInfo,
   getOneInfo,
-} = require("../services/character");
+} = require("../services/db/character");
 
 const getOneCharacter = async (req, res) => {
   const character = await getOne(req.params.id);
